@@ -1,41 +1,37 @@
 import { useState, useEffect } from 'react';
 import { webApp } from './telegram';
-import Header from './components/Header';
-import Dashboard from './components/Dashboard';
+import HomeTab from './components/tabs/Hometab';
+import RewardsTab from './components/tabs/RewardsTab';
 import Profile from './components/Profile';
-import LoadingSpinner from './components/LoadingSpinner';
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState('home');
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (webApp?.initDataUnsafe?.user) {
-      setUser(webApp.initDataUnsafe.user);
-      // fake points for now
-      setUser(prev => ({ ...prev, points: 1240 }));
+      setUser({ ...webApp.initDataUnsafe.user, points: 1240 });
     } else {
-      // fallback for testing in browser
-      setUser({
-        id: 123456789,
-        first_name: 'Test',
-        last_name: 'User',
-        username: 'testuser',
-        points: 850
-      });
+      setUser({ first_name: "Alex", points: 1240 });
     }
-    setLoading(false);
+    webApp?.expand();
   }, []);
-
-  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="app">
-      <Header />
-      <main>
-        <Profile user={user} />
-        <Dashboard user={user} />
-      </main>
+      <div className="header">
+        <h1>Benedict</h1>
+      </div>
+
+      {user && activeTab === 'home' && <HomeTab user={user} />}
+      {activeTab === 'rewards' && <RewardsTab />}
+      {activeTab === 'profile' && <Profile user={user} />}
+
+      <div className="tabs">
+        <div className={`tab ${activeTab==='home'?'active':''}`} onClick={()=>setActiveTab('home')}>Home</div>
+        <div className={`tab ${activeTab==='rewards'?'active':''}`} onClick={()=>setActiveTab('rewards')}>Rewards</div>
+        <div className={`tab ${activeTab==='profile'?'active':''}`} onClick={()=>setActiveTab('profile')}>Profile</div>
+      </div>
     </div>
   );
 }
