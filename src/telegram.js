@@ -1,13 +1,14 @@
-import { init, useThemeParams, useViewport } from '@telegram-apps/sdk';
+// src/telegram.js  ← NEW CORRECT VERSION (2025)
 
 let webApp = null;
 
-try {
-  webApp = init();
-  webApp.ready();
-  webApp.expand(); // full screen
-} catch (e) {
-  console.warn('Not inside Telegram WebApp');
+if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+  webApp = window.Telegram.WebApp;
+  webApp.ready();           // ← correct
+  webApp.expand();          // ← correct
+  console.log('Telegram WebApp initialized correctly');
+} else {
+  console.warn('Running outside Telegram – using fallback mode');
 }
 
 export { webApp };
