@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { webApp } from './telegram';
-import HomeTab from './components/tabs/Hometab';
+import HomeTab from './components/tabs/HomeTab';
 import RewardsTab from './components/tabs/RewardsTab';
 import Profile from './components/Profile';
 
