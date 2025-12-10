@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { webApp } from './telegram';
 import HomeTab from './components/tabs/HomeTab';
 import RewardsTab from './components/tabs/RewardsTab';
-import Profile from './components/Profile';
+import Profile from './components/Profile';          // ← this one matches your folder
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -12,10 +12,13 @@ export default function App() {
     if (webApp?.initDataUnsafe?.user) {
       setUser({ ...webApp.initDataUnsafe.user, points: 1240 });
     } else {
-      setUser({ first_name: "Alex", points: 1240 });
+      // fallback when testing in browser
+      setUser({ first_name: "Guest", points: 1240 });
     }
     webApp?.expand();
   }, []);
+
+  if (!user) return <div style={{padding:50, textAlign:'center'}}>Loading…</div>;
 
   return (
     <div className="app">
@@ -23,7 +26,7 @@ export default function App() {
         <h1>Benedict</h1>
       </div>
 
-      {user && activeTab === 'home' && <HomeTab user={user} />}
+      {activeTab === 'home' && <HomeTab user={user} />}
       {activeTab === 'rewards' && <RewardsTab />}
       {activeTab === 'profile' && <Profile user={user} />}
 
