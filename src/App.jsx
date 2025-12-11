@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API = 'https://your-railway-app.up.railway.app/api'; // ← REPLACE WITH YOUR RAILWAY URL
+const API = 'benedict-loyalty-backend.railway.internal'; // ← REPLACE WITH YOUR RAILWAY URL
 
 export default function App() {
   const [content, setContent] = useState('Загрузка...');
